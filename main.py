@@ -6,14 +6,17 @@ app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:password@localhost:3306/blogz'
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
-
+#### use 3306 port #####
 #######################
+
+app.secret_key = 'abcde'
 
 class Blog(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String(120))
     content = db.Column(db.Text())
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    pub_date = db.Column(db.DateTime)
 
     def __init__(self, title, content, owner):
         self.title = title
@@ -60,7 +63,7 @@ def blog_listing():
     if "id" in request.args:
         post_id = request.args.get('id')
         blog = Blog.query.filter_by(id = post_id).all()
-       
+        owner = User.query.get(owner.username)
         return render_template('blogs.html', title = title, blog = blog, post_id = post_id)
 
     elif "user" in request.args:
@@ -118,7 +121,7 @@ def signup():
 
         existing_user = User.query.filter_by(username = username).first()
 
-        if (len(username) < 3) or (len(username)) > 20):
+        if (len(username) < 3) or (len(username) > 20):
             username_error = "Usernames must be between 3 and 20 characters in length."
             if username == "":
                 username_error = "Please create a username."
