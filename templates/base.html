@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+    
+</head>
+<body>
+<div id="navigation">
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/blog">Blog Listing</a></li>
+        <li><a href="/newpost">Write a Post</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+</div>
+<div>
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>
